@@ -25,8 +25,8 @@ fi
 echo "Package name: $package"
 
 echo "Backuping whitelist..."
+adb shell "su -c 'chmod 777 /data/local/tmp/whitelist-1.0.xml'"
 adb shell "cp /data/data/whitelist-1.0.xml /data/local/tmp/"
-adb shell "chown shell:shell /data/local/tmp/whitelist-1.0.xml"
 adb pull /data/local/tmp/whitelist-1.0.xml whitelist-1.0.xml 
 
 echo "Preparing replacement whitelist"
