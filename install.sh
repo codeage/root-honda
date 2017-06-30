@@ -25,7 +25,7 @@ fi
 echo "Package name: $package"
 
 echo "Backuping whitelist..."
-adb shell "su -c 'chmod 777 /data/local/tmp/whitelist-1.0.xml'"
+adb shell "su -c 'chmod 777 /data/data/whitelist-1.0.xml'"
 adb shell "cp /data/data/whitelist-1.0.xml /data/local/tmp/"
 adb pull /data/local/tmp/whitelist-1.0.xml whitelist-1.0.xml 
 
@@ -99,4 +99,6 @@ adb push whitelist-1.0-new.xml /data/local/tmp/whitelist-1.0-new.xml
 
 adb shell "su -c 'cp /data/local/tmp/whitelist-1.0-new.xml /data/data/whitelist-1.0.xml'"
 adb shell "su -c 'chown system:system /data/data/whitelist-1.0.xml'"
-adb install -r $1
+#adb install -r $1
+adb push $1 /data/local/tmp/$1
+adb shell "su -c 'pm install -r /data/local/tmp/$1'"
