@@ -6,6 +6,9 @@
 #use this on head unit
 ARCH="armeabi-v7a"
 
+echo 'Please connect your computer with the head unit...'
+adb wait-for-device
+
 adb push libs/$ARCH/dirtycow /data/local/tmp/dcow
 adb shell 'chmod 777 /data/local/tmp/dcow'
 
@@ -17,4 +20,8 @@ adb push nefarious.sh /data/local/tmp/rootme/
 adb push su /data/local/tmp/rootme/
 adb push SuperSU-v2.78.apk /data/local/tmp/rootme/
 
+adb reboot
+adb wait-for-device
+
 adb shell 'chmod 777 /data/local/tmp/rootme/nefarious.sh'
+adb shell 'echo /data/local/tmp/rootme/nefarious.sh | run-as'

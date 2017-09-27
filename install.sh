@@ -5,6 +5,9 @@ if [ "$1" = "" ]; then
 	exit 0
 fi
 
+echo 'Please connect your computer with the head unit...'
+adb wait-for-device
+
 uname=`uname`
 echo "OS type: $uname"
 
@@ -16,7 +19,7 @@ else
 fi
 echo "Signature: $sig"
 
-echo "Getting package information..."
+echo "Getting package information... (press Control+C if you stuck here)"
 if [ "$uname" = "Darwin" ]; then
 	package=`aapt dump permissions "$1" | head -1 | sed -E 's/^.{9}//'`
 else
@@ -50,7 +53,7 @@ echo "                </keyStoreLists>
             </property>
             <controlData>
                 <withAudio>without</withAudio>
-                <audioStreamType>null</audioStreamType>
+                <audioStreamType>STREAM_ADA_GUIDE</audioStreamType>
                 <regulation>null</regulation>
                 <revert>no</revert>
             </controlData>
@@ -82,7 +85,7 @@ else
 fi
 
 packagecheck=`grep $package whitelist-1.0-new.xml`
-if [ ! -z "$package" ]; then
+if [ ! -z "$packagecheck" ]; then
 	echo "Package name is present in new whitelist"
 else
 	echo "Error: Package name is NOT present in new whitelist!"
@@ -100,6 +103,7 @@ adb push whitelist-1.0-new.xml /data/local/tmp/whitelist-1.0-new.xml
 
 adb shell "su -c 'cp /data/local/tmp/whitelist-1.0-new.xml /data/data/whitelist-1.0.xml'"
 adb shell "su -c 'chown system:system /data/data/whitelist-1.0.xml'"
-adb install -r $1
+adb install -r -d $1
+
 #adb push $1 /data/local/tmp/$1
 #adb shell "su -c 'pm install -r /data/local/tmp/$1'"
