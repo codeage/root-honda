@@ -20,8 +20,11 @@ adb push nefarious.sh /data/local/tmp/rootme/
 adb push su /data/local/tmp/rootme/
 adb push SuperSU-v2.78.apk /data/local/tmp/rootme/
 
-adb reboot
+adb disconnect
+echo 'Wait 10 seconds...'
+sleep 10
 adb wait-for-device
+echo 'OK'
 
 adb shell 'chmod 777 /data/local/tmp/rootme/nefarious.sh'
 adb shell 'echo /data/local/tmp/rootme/nefarious.sh | run-as'
